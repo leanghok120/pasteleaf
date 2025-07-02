@@ -43,3 +43,16 @@ func GetPaste(id string) (Paste, bool) {
 	mu.RUnlock()
 	return paste, ok
 }
+
+func GetPastes() []Paste {
+	mu.RLock()
+
+	list := make([]Paste, 0, len(pastes))
+	for _, p := range pastes {
+		list = append(list, p)
+	}
+
+	mu.RUnlock()
+
+	return list
+}

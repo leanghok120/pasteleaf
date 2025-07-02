@@ -10,6 +10,7 @@ func New() *http.Server {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", handlers.HandleRoot)
+	mux.HandleFunc("GET /pastes", handlers.GetPastes)
 	mux.HandleFunc("GET /pastes/{id}", handlers.GetPaste)
 	mux.HandleFunc("POST /pastes", handlers.CreatePaste)
 

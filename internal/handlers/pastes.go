@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -40,6 +41,25 @@ func GetPaste(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data, err := json.Marshal(paste)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(data)
+}
+
+func GetPastes(w http.ResponseWriter, r *http.Request) {
+	pastes := models.GetPastes()
+
+	if len(pastes) == 0 {
+		fmt.Fprintln(w, "no pastes available")
+		return
+	}
+
+	data, err := json.Marshal(pastes)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
