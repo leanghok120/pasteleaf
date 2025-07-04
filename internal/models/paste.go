@@ -10,14 +10,16 @@ import (
 const idCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 type Paste struct {
-	ID string `json:"id"`
-	Title string `json:"title"`
-	Content string `json:"content"`
+	ID        string    `json:"id"`
+	Title     string    `json:"title"`
+	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
-var pastes = make(map[string]Paste)
-var mu sync.RWMutex
+var (
+	pastes = make(map[string]Paste)
+	mu     sync.RWMutex
+)
 
 func GenerateID(length int) (string, error) {
 	id := make([]byte, length)

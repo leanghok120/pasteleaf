@@ -15,7 +15,7 @@ func CreatePaste(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	
+
 	id, err := models.GenerateID(9)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -33,7 +33,7 @@ func CreatePaste(w http.ResponseWriter, r *http.Request) {
 
 func GetPaste(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
-	
+
 	paste, ok := models.GetPaste(id)
 	if !ok {
 		http.Error(w, "paste doesn't exist", http.StatusNotFound)

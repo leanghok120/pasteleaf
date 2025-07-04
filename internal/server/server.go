@@ -15,7 +15,7 @@ func New() *http.Server {
 	mux.HandleFunc("POST /pastes", handlers.CreatePaste)
 
 	return &http.Server{
-    Addr: ":8080",
+		Addr:    ":8080",
 		Handler: mux,
 	}
 }
