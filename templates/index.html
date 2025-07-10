@@ -1,0 +1,10 @@
+{{define "content"}}
+<h1>Create a paste</h1>
+
+<form hx-post="/pastes" hx-swap="inner-html" hx-target="#results">
+  <input type="text" name="title" placeholder="title">
+  <textarea name="content" placeholder="content"></textarea>
+  <button type="submit">Create</button>
+</form>
+
+<div id="results"></div>

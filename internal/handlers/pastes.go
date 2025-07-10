@@ -4,31 +4,29 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"text/template"
 	"time"
 
 	"github.com/leanghok120/pasteleaf/internal/models"
 )
 
 func CreatePaste(w http.ResponseWriter, r *http.Request) {
-	var paste models.Paste
-	if err := json.NewDecoder(r.Body).Decode(&paste); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	id, err := models.GenerateID(9)
+	err := r.ParseForm()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		http.Error(w, "invalid form", http.StatusBadRequest)
 	}
 
+	paste := models.Paste{
+		Title:     r.FormValue("title"),
+		Content:   r.FormValue("content"),
+		CreatedAt: time.Now(),
+	}
+	id, _ := models.GenerateID(9)
 	paste.ID = id
-	paste.CreatedAt = time.Now()
 	models.SavePaste(paste)
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(paste)
+	templ := template.Must(template.ParseFiles("templates/success.html"))
+	templ.Execute(w, nil)
 }
 
 func GetPaste(w http.ResponseWriter, r *http.Request) {
