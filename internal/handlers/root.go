@@ -1,10 +1,14 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
+	"text/template"
 )
 
 func HandleRoot(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "🌱 Welcome to Pasteleaf!")
+	templ := template.Must(template.ParseFiles(
+		"templates/index.html",
+		"templates/layout.html",
+	))
+	templ.ExecuteTemplate(w, "layout.html", nil)
 }

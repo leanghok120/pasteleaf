@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"text/template"
@@ -24,9 +23,6 @@ func CreatePaste(w http.ResponseWriter, r *http.Request) {
 	id, _ := models.GenerateID(9)
 	paste.ID = id
 	models.SavePaste(paste)
-
-	templ := template.Must(template.ParseFiles("templates/success.html"))
-	templ.Execute(w, nil)
 }
 
 func GetPaste(w http.ResponseWriter, r *http.Request) {
@@ -38,15 +34,12 @@ func GetPaste(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := json.Marshal(paste)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(data)
+	templ := template.Must(template.ParseFiles(
+		"templates/layout.html",
+		"templates/paste.html",
+	))
+	w.Header().Set("Content-Type", "text/html")
+	templ.ExecuteTemplate(w, "layout.html", paste)
 }
 
 func GetPastes(w http.ResponseWriter, r *http.Request) {
@@ -57,13 +50,7 @@ func GetPastes(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := json.Marshal(pastes)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(data)
+	templ := template.Must(template.ParseFiles("templates/pastes.html"))
+	w.Header().Set("Content-Type", "text/html")
+	templ.Execute(w, pastes)
 }

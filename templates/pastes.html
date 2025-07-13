@@ -1,0 +1,11 @@
+<ul>
+  {{range $id, $paste := .}}
+  <li>
+    <a href="/pastes/{{.ID}}">
+      <strong>{{.Title}}</strong> - {{.CreatedAt.Format "Jan 2, 2006 15:04"}}
+    </a>
+  </li>
+  {{else}}
+  <p>no pastes available</p>
+  {{end}}
+</ul>
