@@ -1,6 +1,8 @@
 {{define "content"}}
 <h1>🌱 Welcome to Pasteleaf!</h1>
 
+<p>pasteleaf is a minimal, open source, and anonymous pastebin/text sharing platform</p>
+
 <h2>Create a paste</h2>
 
 <form hx-post="/pastes" hx-swap="inner-html" hx-on::after-request="htmx.trigger('#pastes', 'refresh')">
