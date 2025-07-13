@@ -23,6 +23,8 @@ func CreatePaste(w http.ResponseWriter, r *http.Request) {
 	id, _ := models.GenerateID(9)
 	paste.ID = id
 	models.SavePaste(paste)
+
+	w.Header().Set("HX-Redirect", "/pastes/"+id)
 }
 
 func GetPaste(w http.ResponseWriter, r *http.Request) {

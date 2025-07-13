@@ -3,14 +3,11 @@
 
 <h2>Create a paste</h2>
 
-<form hx-post="/pastes" hx-swap="inner-html" hx-target="#results"
-  hx-on::after-request="htmx.trigger('#pastes', 'refresh')">
+<form hx-post="/pastes" hx-swap="inner-html" hx-on::after-request="htmx.trigger('#pastes', 'refresh')">
   <input type="text" name="title" placeholder="title">
-  <textarea name="content" placeholder="content"></textarea>
+  <textarea name="content" placeholder="content" rows="30" cols="50"></textarea>
   <button type="submit">Create</button>
 </form>
-
-<div id="results"></div>
 
 <div id="pastes" hx-get="/pastes" hx-trigger="load, refresh from:body" hx-swap="innerHTML"></div>
 {{end}}
